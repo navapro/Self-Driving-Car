@@ -1,3 +1,4 @@
+#include <IRremote.hpp>
     
 const int EnableL = 5;
 const int HighL = 6;       // LEFT SIDE MOTOR
@@ -12,11 +13,16 @@ const int D1 = 1;       //Raspberry pin 22
 const int D2 = 2;       //Raspberry pin 23
 const int D3 = 3;       //Raspberry pin 24    MSB
 
+bool state = false;
+const long REMOTE_KEY_INT = 3125149440;
+
 int a,b,c,d,data;
 
 
 void setup() {
-
+  
+  IrReceiver.begin(11, ENABLE_LED_FEEDBACK); // Start the receiver
+  
 pinMode(EnableL, OUTPUT);      
 pinMode(HighL, OUTPUT);
 pinMode(LowL, OUTPUT);
@@ -32,6 +38,16 @@ pinMode(D2, INPUT_PULLUP);
 pinMode(D3, INPUT_PULLUP);
 
 
+}
+bool ir_remote_function() {
+  if (IrReceiver.decode()) {
+      IrReceiver.resume(); // Enable receiving of the next value
+      if (IrReceiver.decodedIRData.decodedRawData == REMOTE_KEY_INT){
+        return true;  
+      }
+  } else {
+    return false;
+    }
 }
 
 void Data()
@@ -157,6 +173,14 @@ void Right3()
 
 void loop() 
 {
+  if (ir_remote_function() == true){
+    if (state == true)
+    {state = false;}
+    else
+    {state = true;} 
+  }
+
+  if (state == true) {
   Data();
   if(data==0)
    {
@@ -198,7 +222,7 @@ void loop()
      Stop();
    }
    
-
+  }
 
 
 }
