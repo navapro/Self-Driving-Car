@@ -234,7 +234,8 @@ void loop()
 {
 
   Data();
-  Serial.println(data);
+  
+  Serial.println(ir_remote_function());
 
   if(data==0)
    {
