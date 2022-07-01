@@ -20,7 +20,7 @@ int a,b,c,d,data;
 
 void setup() {
 
-IrReceiver.begin(11, ENABLE_LED_FEEDBACK);
+IrReceiver.begin(4, ENABLE_LED_FEEDBACK);
 
 pinMode(EnableL, OUTPUT);
 pinMode(HighL, OUTPUT);
@@ -234,9 +234,16 @@ void loop()
 {
 
   Data();
-  
-  Serial.println(ir_remote_function());
 
+  bool ir_remote = ir_remote_function();
+  if (ir_remote && state == false){
+    state = true;
+  } else if (ir_remote && state == true){
+      state = false;
+    }
+
+if (state == true){
+  Serial.println(data);
   if(data==0)
    {
      Forward();
@@ -283,4 +290,5 @@ void loop()
    }
    
 
+}
 }
