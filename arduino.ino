@@ -9,6 +9,7 @@ const int LowR = 9;
 const int D0 = 11; // Raspberry pin 21    LSB
 const int D1 = 12; // Raspberry pin 22
 const int D2 = 13; // Raspberry pin 23
+
 const  int trigger=3;
 const  int echo=2;
 
