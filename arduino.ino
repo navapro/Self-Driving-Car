@@ -29,7 +29,7 @@ bool object_detection(){
     distance=distance*0.0001657;
     float dist_inches=distance*39.37;
     
-    return dist_inches < 5
+    return dist_inches < 5;
   }
 
 void setup()
