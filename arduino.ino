@@ -177,55 +177,51 @@ void UTurn()
 
 void loop()
 {
-    bool object_in_front = object_detection()
-    
-    if (!object_in_front) {
-        // Access the raspberrypi input.
-        int data = Data();
+    object_in_front = object_detection();
+    if (object_in_front) {
+        Stop();
+    }
+    else if(data==0)
+    {
+        Forward();
+    }
+    else if (data == 1)
+    {
+        Right(255, 100);
+    }
 
-        // Setting variables array for intensity of turns.
-        if (data == 0)
-        {
-            Forward();
-        }
-        else if (data == 1)
-        {
-            Right(255, 100);
-        }
+    else if (data == 2)
+    {
+        Right(255, 50);
+    }
 
-        else if (data == 2)
-        {
-            Right(255, 50);
-        }
+    else if (data == 3)
+    {
+        Right(255, 0);
+    }
 
-        else if (data == 3)
-        {
-            Right(255, 0);
-        }
+    else if (data == 4)
+    {
+        Left(100, 255);
+    }
 
-        else if (data == 4)
-        {
-            Left(100, 255);
-        }
+    else if (data == 5)
+    {
+        Left(50, 255);
+    }
 
-        else if (data == 5)
-        {
-            Left(50, 255);
-        }
+    else if (data == 6)
+    {
+        Left(0, 255);
+    }
 
-        else if (data == 6)
-        {
-            Left(0, 255);
-        }
+    else if (data == 7)
+    {
+        UTurn();
+    }
 
-        else if (data == 7)
-        {
-            UTurn();
-        }
-
-        else if (data > 7)
-        {
-            Stop();
-        }
+    else if (data > 7)
+    {
+        Stop();
     }
 }
