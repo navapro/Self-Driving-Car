@@ -9,6 +9,27 @@ const int LowR = 9;
 const int D0 = 11; // Raspberry pin 21    LSB
 const int D1 = 12; // Raspberry pin 22
 const int D2 = 13; // Raspberry pin 23
+const  int trigger=3;
+const  int echo=2;
+
+bool object_detection(){
+    // Trigger the sensor to start measurement
+    // Set up trigger
+    digitalWrite(trigger,LOW);
+    delayMicroseconds(5);
+    
+    //Start Measurement
+    digitalWrite(trigger,HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigger,LOW);
+    
+    // Acquire and convert to inches
+    float distance=pulseIn(echo,HIGH);
+    distance=distance*0.0001657;
+    float dist_inches=distance*39.37;
+    
+    return dist_inches < 5
+  }
 
 void setup()
 {
@@ -25,6 +46,9 @@ void setup()
     pinMode(D0, INPUT_PULLUP);
     pinMode(D1, INPUT_PULLUP);
     pinMode(D2, INPUT_PULLUP);
+    
+    pinMode(trigger,OUTPUT);
+    pinMode(echo,INPUT);
 }
 
 int Data()
@@ -152,51 +176,55 @@ void UTurn()
 
 void loop()
 {
-    // Access the raspberrypi input.
-    int data = Data();
+    bool object_in_front = object_detection()
+    
+    if (!object_in_front) {
+        // Access the raspberrypi input.
+        int data = Data();
 
-    // Setting variables array for intensity of turns.
-    if (data == 0)
-    {
-        Forward();
-    }
-    else if (data == 1)
-    {
-        Right(255, 100);
-    }
+        // Setting variables array for intensity of turns.
+        if (data == 0)
+        {
+            Forward();
+        }
+        else if (data == 1)
+        {
+            Right(255, 100);
+        }
 
-    else if (data == 2)
-    {
-        Right(255, 50);
-    }
+        else if (data == 2)
+        {
+            Right(255, 50);
+        }
 
-    else if (data == 3)
-    {
-        Right(255, 0);
-    }
+        else if (data == 3)
+        {
+            Right(255, 0);
+        }
 
-    else if (data == 4)
-    {
-        Left(100, 255);
-    }
+        else if (data == 4)
+        {
+            Left(100, 255);
+        }
 
-    else if (data == 5)
-    {
-        Left(50, 255);
-    }
+        else if (data == 5)
+        {
+            Left(50, 255);
+        }
 
-    else if (data == 6)
-    {
-        Left(0, 255);
-    }
+        else if (data == 6)
+        {
+            Left(0, 255);
+        }
 
-    else if (data == 7)
-    {
-        UTurn();
-    }
+        else if (data == 7)
+        {
+            UTurn();
+        }
 
-    else if (data > 7)
-    {
-        Stop();
+        else if (data > 7)
+        {
+            Stop();
+        }
     }
 }
